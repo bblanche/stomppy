@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Bienvenu dans le service de messagerie instantanné STOMPPY {% endblock %}</h1>
+
+<style type="text/css">
+    button {
+      display: inline-block;
+      background-color: #F5C5C5;
+      border-radius: 10px;
+      border: 4px double #cccccc;
+      color: #181717;
+      text-align: center;
+      font-size: 15px;
+      padding: 7px;
+      width: 150px;
+      cursor: pointer;
+      margin: 5px;
+      }
+    h1{
+        text-align: center;
+        text-decoration: dotted;
+    }
+   
+    body {
+        font-family:"trebuchet ms",sans-serif;
+        font-size:90%;
+        }
+    .div{
+        border:1px solid #F5C5C5;
+        text-align: center;
+        border-width: 10px;
+        border-style: #FFF3F3;
+        background-color:#FAFAFA;
+        padding:10px;
+        width:500px;
+        margin: auto;
+        vertical-align: middle;
+        }
+    fieldset {
+        padding:0 20px 20px 20px;
+        margin-bottom:10px;
+        border:1px solid #DF3F3F;
+        }
+    
+   
+    
+    textarea{
+        background-color:#FFF3F3;
+        }
+    input, textarea{
+        padding:3px;
+        border:1px solid #F5C5C5;
+        border-radius:5px;
+        box-shadow:1px 1px 2px #C0C0C0 inset;
+        }
+    
+        label{
+        font-size:x-large;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        margin-top:10px;
+        
+    }
+</style>
+
+<div>NOM: <span>{{pseudo}}</span>  <br> GROUPE: <span>{{groupe}}</span> </div>
+<div> MESSAGES DU GROUPE</div>
+
+<div> 
+    <textarea class="smsgroupe" name="smsgroupe" id="smsgroupe" placeholder="attente de nouveaux messages... "   rows="30" cols="80" disabled></textarea>
+</div>
+<div class="div">
+<form class="form" method="post">
+    <div class="form-group">
+        
+        <label for="GROUPE">Ecrivez votre message :</label><br/>
+        <textarea rows="5" cols="50" name="monmessage" 
+            placeholder="Ecrivez votre message ici" class="form-control" placeholder="attente de nouveaux messages... "
+        >
+        </textarea>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </div>
+    
+        
+    
+    
+
+    <input type="hidden" name="pseudo" value="{{ request.form['pseudo']}}">
+    <input type="hidden" name="groupe" value="{{ request.form['groupe']}}">
+
+</form>
+<form method="post" action="/deconnexion">
+    <div class="form-group">
+        <button class="btn btn-primary">Se déconnecter</button>
+    </div>
+</form>
+</div>
+<script>
+
+    var intervalID = setInterval(getMessage, 1000);
+    var a="";
+    var b="Vous venez de rejoindre le groupe";
+    function getMessage(){
+        var url = "/discussion/sms2";
+
+        var request = new XMLHttpRequest();
+
+        request.open('GET', url, true);
+
+        request.onload = function(e){
+            var message = request.response;
+            a=message;
+            console.log(a);
+            console.log(message);
+        }
+        
+        request.send();
+        document.getElementById("smsgroupe").value=a;
+    }
+    /*function deconnexion(){
+        return window.location.href="/";
+    }
+    
+
+    function connexion(){
+        return window.location.href="/discussion";
+    }*/
+
+
+</script>
+
+{% endblock %}

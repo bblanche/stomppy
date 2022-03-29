@@ -1,0 +1,4 @@
+	La communication via STOMP fonctionne avec deux éléments qui communique en utilisant 
+	le mécanisme publish and subscribe via des trames
+	Les Clients STOMP 
+	Le serveur STOMP qui est le middleware orienté message qui va dispatché le message
